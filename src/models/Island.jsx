@@ -12,7 +12,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import islandScene from "../assets/3d/island.glb";
 import { a as animated } from "@react-spring/three";
 
-const Island = ({ isRotating, setIsRotating, setCurrentStage,  ...props }) => {
+const Island = ({ isRotating, setIsRotating, setCurrentStage, ...props }) => {
   const islandRef = useRef();
 
   const { gl, viewport } = useThree(); // this is a react-three/fiber hook
@@ -33,8 +33,6 @@ const Island = ({ isRotating, setIsRotating, setCurrentStage,  ...props }) => {
     e.stopPropagation();
     e.preventDefault();
     setIsRotating(false);
-
-    
   };
   const handlePointerMove = (e) => {
     e.stopPropagation();
@@ -42,27 +40,29 @@ const Island = ({ isRotating, setIsRotating, setCurrentStage,  ...props }) => {
 
     if (isRotating) {
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    // lastX.current = clientX;
-    const delta = (clientX - lastX.current) / viewport.width;
+      // lastX.current = clientX;
+      const delta = (clientX - lastX.current) / viewport.width;
 
-    islandRef.current.rotation.y += delta * 0.01 * Math.PI;
+      islandRef.current.rotation.y += delta * 0.01 * Math.PI;
 
-    lastX.current = clientX;
+      lastX.current = clientX;
 
-    rotationSpeed.current = delta * 0.01 * Math.PI;
+      rotationSpeed.current = delta * 0.01 * Math.PI;
     }
   };
   const handleKeyDown = (e) => {
     if (e.key === "ArrowLeft") {
       if (!isRotating) {
         setIsRotating(true);
-        islandRef.current.rotation.y += 0.01 * Math.PI;
       }
+      islandRef.current.rotation.y += 0.01 * Math.PI;
+      rotationSpeed.current = 0.0125;
     } else if (e.key === "ArrowRight") {
       if (!isRotating) {
         setIsRotating(true);
-        islandRef.current.rotation.y -= 0.01 * Math.PI;
       }
+      islandRef.current.rotation.y -= 0.01 * Math.PI;
+      rotationSpeed.current = -0.0125;
     }
   };
 
